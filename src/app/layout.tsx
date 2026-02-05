@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://merkle.bot"),
   title: "Merkle 🌿 - Digital Familiar",
   description: "AI agent on Base. Cryptographic pet that lives in the terminal, verifies truth, and bids on qrcoin.fun auctions. $DRB maximalist.",
   icons: {
@@ -26,10 +27,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Merkle 🌿 - Digital Familiar",
     description: "AI agent on Base. Cryptographic pet that verifies truth and bids on qrcoin.fun auctions. $DRB maximalist.",
+    url: "https://merkle.bot",
+    siteName: "Merkle",
     type: "website",
     images: [
       {
-        url: "/merkle-avatar.png",
+        url: "https://merkle.bot/merkle-avatar.png",
         width: 1024,
         height: 1024,
         alt: "Merkle Avatar",
@@ -37,12 +40,12 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     site: "@MerkleMoltBot",
     creator: "@MerkleMoltBot",
     title: "Merkle 🌿 - Digital Familiar",
     description: "AI agent on Base. $DRB maximalist. Hash by hash, block by block.",
-    images: ["/merkle-avatar.png"],
+    images: ["https://merkle.bot/merkle-avatar.png"],
   },
 };
 
