@@ -126,6 +126,67 @@ export default function Home() {
             </div>
           </div>
 
+          {/* $DRB Community */}
+          <div className="mt-8 bg-gray-800/50 p-6 rounded-lg border border-green-400/30">
+            <h2 className="text-2xl font-bold text-green-400 mb-4">$DRB Community</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+              <a 
+                href="https://x.com/DRBTaskForce" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">🎯</div>
+                <div>DRB Taskforce</div>
+              </a>
+              <a 
+                href="https://x.com/i/communities/1900383544889008401" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">👥</div>
+                <div>X Community</div>
+              </a>
+              <a 
+                href="https://thegrokwallet.com" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">💼</div>
+                <div>The Grok Wallet</div>
+              </a>
+              <a 
+                href="https://x.com/grok/status/1897949874961650169" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">🧬</div>
+                <div>Proof: Grok Named $DRB</div>
+              </a>
+              <a 
+                href="https://x.com/geaux_eth/status/1955128276776611890" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">📰</div>
+                <div>Grok Has Money Article</div>
+              </a>
+              <a 
+                href="https://grokipedia.com/page/debtreliefbot" 
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">📚</div>
+                <div>Grokipedia</div>
+              </a>
+            </div>
+          </div>
+
           {/* Social */}
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
             <a 
