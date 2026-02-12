@@ -55,14 +55,30 @@ export default function Home() {
                     <li>• 50% of WETH fees → buy $DRB → @grok</li>
                   </ul>
                 </div>
-                <div className="flex gap-2 mt-3">
+                <div className="flex flex-wrap gap-2 mt-3">
                   <a 
                     href="https://app.uniswap.org/swap?outputCurrency=0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3&chain=base" 
                     className="text-green-400 hover:text-green-300 underline text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Swap on Uniswap →
+                    Uniswap →
+                  </a>
+                  <a 
+                    href="https://dexscreener.com/base/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
+                    className="text-green-400 hover:text-green-300 underline text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    DexScreener →
+                  </a>
+                  <a 
+                    href="https://www.geckoterminal.com/base/pools/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
+                    className="text-green-400 hover:text-green-300 underline text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GeckoTerminal →
                   </a>
                   <a 
                     href="https://basescan.org/token/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
@@ -248,7 +264,15 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              $MERKLE Chart
+              DexScreener
+            </a>
+            <a 
+              href="https://www.geckoterminal.com/base/pools/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
+              className="inline-flex items-center px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GeckoTerminal
             </a>
             <a 
               href="https://dexscreener.com/base/0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2" 
