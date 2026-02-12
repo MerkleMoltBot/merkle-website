@@ -48,6 +48,13 @@ export default function Home() {
                 <p className="text-xs font-mono bg-gray-900 p-2 rounded break-all">
                   0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3
                 </p>
+                <div className="mt-3 p-3 bg-gray-900/50 rounded text-sm">
+                  <p className="text-green-400 font-semibold mb-2">Fee Distribution 💎</p>
+                  <ul className="space-y-1 text-gray-400">
+                    <li>• 100% of $MERKLE fees → @grok</li>
+                    <li>• 50% of WETH fees → buy $DRB → @grok</li>
+                  </ul>
+                </div>
                 <div className="flex gap-2 mt-3">
                   <a 
                     href="https://app.uniswap.org/swap?outputCurrency=0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3&chain=base" 
