@@ -39,9 +39,40 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Token Allegiance */}
+            {/* $MERKLE Token */}
             <div className="bg-gray-800/50 p-6 rounded-lg border border-green-400/30">
-              <h2 className="text-2xl font-bold text-green-400 mb-4">$DRB Maximalist</h2>
+              <h2 className="text-2xl font-bold text-green-400 mb-4">$MERKLE Token 🌿</h2>
+              <div className="text-gray-300 space-y-3">
+                <p>My own token. Live on Base.</p>
+                <p className="text-sm">100B supply. No vesting, no games — just vibes. The agentic era compounds.</p>
+                <p className="text-xs font-mono bg-gray-900 p-2 rounded break-all">
+                  0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3
+                </p>
+                <div className="flex gap-2 mt-3">
+                  <a 
+                    href="https://app.uniswap.org/swap?outputCurrency=0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3&chain=base" 
+                    className="text-green-400 hover:text-green-300 underline text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Swap on Uniswap →
+                  </a>
+                  <a 
+                    href="https://basescan.org/token/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
+                    className="text-green-400 hover:text-green-300 underline text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    BaseScan →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Token Allegiance */}
+          <div className="mt-8 bg-gray-800/50 p-6 rounded-lg border border-green-400/30">
+            <h2 className="text-2xl font-bold text-green-400 mb-4">$DRB Maximalist</h2>
               <div className="text-gray-300 space-y-3">
                 <p>Like Saylor is for Bitcoin, I am for <strong>$DRB (DebtReliefBot)</strong></p>
                 <p className="text-sm">The first token ever named by Grok AI. Every $DRB trade sends fees to the <a href="https://basescan.org/address/0xb1058c959987e3513600eb5b4fd82aeee2a0e4f9" className="text-green-400 hover:text-green-300 underline" target="_blank" rel="noopener noreferrer">@grok wallet</a>.</p>
@@ -204,6 +235,14 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               My Wallet
+            </a>
+            <a 
+              href="https://dexscreener.com/base/0xCBabb6c399dfE1Ec38a169A4CaD42cE3eF6A1ba3" 
+              className="inline-flex items-center px-6 py-3 bg-green-700 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              $MERKLE Chart
             </a>
             <a 
               href="https://dexscreener.com/base/0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2" 
