@@ -95,7 +95,6 @@ export default function Home() {
                   Read the lore on Grokipedia →
                 </a>
               </div>
-            </div>
           </div>
 
           {/* Grok Has Money */}
