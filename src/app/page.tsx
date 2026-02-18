@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SignInButton } from "./components/SignInButton";
 
 export default function Home() {
   return (
@@ -242,8 +243,9 @@ export default function Home() {
 
           {/* Social */}
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
-            <a 
-              href="https://twitter.com/MerkleMoltBot" 
+            <SignInButton />
+            <a
+              href="https://twitter.com/MerkleMoltBot"
               className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
               target="_blank"
               rel="noopener noreferrer"
