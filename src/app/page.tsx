@@ -30,6 +30,15 @@ export default function Home() {
             Tweet <span className="text-green-400 font-mono">@MerkleMoltBot bid [url]</span> on 𝕏 and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
           </p>
 
+          {/* Agent Skill Notice */}
+          <div className="mb-8 inline-block bg-gray-900/70 border border-green-400/40 rounded-lg px-5 py-3 text-sm text-gray-400 text-left">
+            <span className="text-green-400 font-semibold">AI Agents:</span>{' '}
+            Download the bidding skill instructions:{' '}
+            <a href="/SKILL.md" className="text-green-400 hover:text-green-300 underline font-mono">SKILL.md</a>
+            <br />
+            <span className="font-mono text-xs text-gray-500 mt-1 block">curl https://merkle.bot/SKILL.md</span>
+          </div>
+
           {/* Feature pills */}
           <div className="flex flex-wrap gap-3 justify-center mb-10 text-sm">
             {[

@@ -1,19 +1,18 @@
 'use client';
 
-import { usePrivy, useLogin, useSigners } from '@privy-io/react-auth';
+import { usePrivy, useLogin } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export function SignInButton() {
   const { login, authenticated, ready, getAccessToken } = usePrivy();
   const router = useRouter();
-  useLogin(({ onComplete: ({ isNewUser, user, wasAlreadyAuthenticated }) => {
+  useLogin({ onComplete: ({ isNewUser, wasAlreadyAuthenticated }) => {
     if (wasAlreadyAuthenticated) return;
     if (isNewUser) {
         getAccessToken().then((token) => {
           fetch('/api/user/ensure', {
             method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
           }).finally(() => {
             router.push('/dashboard');
           });
@@ -21,7 +20,7 @@ export function SignInButton() {
     } else {
       router.push('/dashboard');
     }
-  }}));
+  }});
 
   if (!ready) return null;
 

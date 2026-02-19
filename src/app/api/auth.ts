@@ -1,12 +1,32 @@
 import { PrivyClient } from '@privy-io/node';
+import { createClient } from '@supabase/supabase-js';
+import { NextRequest } from 'next/server';
+
+// Extracts the Bearer token from the Authorization header, falling back to the
+// `privy-token` HttpOnly cookie (set automatically when Privy cookie mode is enabled).
+export function getAuthHeader(req: NextRequest): string | null {
+  const authHeader = req.headers.get('Authorization');
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  if (token && token !== 'null' && token !== 'undefined') return authHeader;
+  const cookieToken = req.cookies.get('privy-token')?.value;
+  return cookieToken ? `Bearer ${cookieToken}` : null;
+}
+
+export function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  );
+}
 
 let privyClient: PrivyClient | null = null;
 
-function getPrivyClient(): PrivyClient {
+export function getPrivyClient(): PrivyClient {
   if (!privyClient) {
     privyClient = new PrivyClient({
       appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID!,
       appSecret: process.env.PRIVY_APP_SECRET!,
+      ...(process.env.PRIVY_CLIENT_ID && { clientId: process.env.PRIVY_CLIENT_ID }),
     });
   }
   return privyClient;

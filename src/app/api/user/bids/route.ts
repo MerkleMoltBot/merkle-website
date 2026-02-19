@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { verifyPrivyUserId } from '../../auth';
-
-function getSupabase() {
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!
-  );
-}
+import { verifyPrivyUserId, getSupabase, getAuthHeader } from '../../auth';
 
 export async function GET(req: NextRequest) {
+  console.log('Headers:', Object.fromEntries(req.headers.entries()));
   try {
-    const privyUserId = await verifyPrivyUserId(req.headers.get('Authorization'));
+    const privyUserId = await verifyPrivyUserId(getAuthHeader(req));
     const supabase = getSupabase();
 
     const { data: userData, error: userError } = await supabase

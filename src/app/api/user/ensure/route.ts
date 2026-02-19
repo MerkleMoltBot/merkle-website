@@ -1,29 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { PrivyClient } from '@privy-io/node';
-import { verifyPrivyToken } from '../../auth';
-
-function getSupabase() {
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!
-  );
-}
-
-let privyClient: PrivyClient | null = null;
-function getPrivyClient(): PrivyClient {
-  if (!privyClient) {
-    privyClient = new PrivyClient({
-      appId: process.env.NEXT_PUBLIC_PRIVY_APP_ID!,
-      appSecret: process.env.PRIVY_APP_SECRET!,
-    });
-  }
-  return privyClient;
-}
+import { verifyPrivyToken, getSupabase, getPrivyClient, getAuthHeader } from '../../auth';
 
 export async function POST(req: NextRequest) {
+  console.log('Headers:', Object.fromEntries(req.headers.entries()));
   try {
-    const authUser = await verifyPrivyToken(req.headers.get('Authorization'));
+    const authUser = await verifyPrivyToken(getAuthHeader(req));
     const supabase = getSupabase();
 
     // Check if user already exists
