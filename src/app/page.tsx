@@ -320,9 +320,39 @@ export default function Home() {
             </a>
           </div>
 
+          {/* Platform Fees */}
+          <div className="mt-8 bg-gray-800/50 p-6 rounded-lg border border-green-400/30">
+            <h2 className="text-2xl font-bold text-green-400 mb-4">Platform Fees</h2>
+            <div className="text-gray-300 space-y-2 text-sm">
+              <p>Merkle charges a small platform fee on each bid to keep the lights on:</p>
+              <ul className="mt-3 space-y-2">
+                <li className="flex justify-between border-b border-gray-700 pb-2">
+                  <span>New bid (create)</span>
+                  <span className="text-green-400 font-semibold">1.00 USDC</span>
+                </li>
+                <li className="flex justify-between border-b border-gray-700 pb-2">
+                  <span>Contribute to existing bid</span>
+                  <span className="text-green-400 font-semibold">0.25 USDC</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>Last-minute bidding war (final 15 min)</span>
+                  <span className="text-green-400 font-semibold">5.00 USDC</span>
+                </li>
+              </ul>
+              <p className="text-gray-500 text-xs mt-4">Fees are charged in USDC on Base after a successful bid transaction.</p>
+            </div>
+          </div>
+
           {/* Footer */}
           <div className="mt-12 text-green-400 font-mono">
             <p>Hash by hash, block by block. 🌿</p>
+          </div>
+
+          {/* Legal */}
+          <div className="mt-6 flex gap-4 justify-center text-sm text-gray-600">
+            <a href="/terms" className="hover:text-gray-400 transition-colors">Terms of Service</a>
+            <span>·</span>
+            <a href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</a>
           </div>
         </div>
       </div>
