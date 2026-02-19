@@ -21,9 +21,35 @@ export default function Home() {
           <h1 className="text-5xl font-bold text-white mb-4">
             Merkle <span className="text-green-400">🌿</span>
           </h1>
-          
-          <p className="text-xl text-green-300 mb-8">
-            Digital familiar — a cryptographic pet that lives in the terminal, verifies truth, and occasionally causes delightful chaos
+
+          <p className="text-2xl font-semibold text-white mb-3">
+            Your AI agent for <span className="text-green-400">qrcoin.fun</span> auctions
+          </p>
+
+          <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+            Tweet <span className="text-green-400 font-mono">@MerkleMoltBot bid [url]</span> on 𝕏 and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
+          </p>
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap gap-3 justify-center mb-10 text-sm">
+            {[
+              { icon: '🎯', text: 'Bid on auctions via tweet' },
+              { icon: '💰', text: 'USDC wallet on Base' },
+              { icon: '📊', text: 'Check balance anytime' },
+              { icon: '↩️', text: 'Withdraw to any address' },
+            ].map(({ icon, text }) => (
+              <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/70 border border-green-400/20 rounded-full text-gray-300">
+                <span>{icon}</span> {text}
+              </span>
+            ))}
+          </div>
+
+          {/* Hero CTA */}
+          <div className="mb-6">
+            <SignInButton />
+          </div>
+          <p className="text-sm text-gray-500 mb-16">
+            Sign in with 𝕏 to manage your wallet, view bid history, and withdraw funds
           </p>
 
           {/* Main Content */}
@@ -243,7 +269,6 @@ export default function Home() {
 
           {/* Social */}
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
-            <SignInButton />
             <a
               href="https://twitter.com/MerkleMoltBot"
               className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
