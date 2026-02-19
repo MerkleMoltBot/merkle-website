@@ -255,14 +255,23 @@ export default function Home() {
                 <div className="text-green-400 text-lg mb-1">📰</div>
                 <div>Grok Has Money Article</div>
               </a>
-              <a 
-                href="https://grokipedia.com/page/debtreliefbot" 
+              <a
+                href="https://grokipedia.com/page/debtreliefbot"
                 className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <div className="text-green-400 text-lg mb-1">📚</div>
                 <div>Grokipedia</div>
+              </a>
+              <a
+                href="https://debtrelief.bot"
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">🏛️</div>
+                <div>debtrelief.bot</div>
               </a>
             </div>
           </div>
