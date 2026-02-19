@@ -18,6 +18,17 @@ export function EmailLinkCard() {
           <p className="text-gray-500 text-xs">
             You can use this email to recover your account if you lose access to 𝕏.
           </p>
+          <p className="text-gray-500 text-xs pt-1">
+            Full wallet management available at{' '}
+            <a
+              href="https://home.privy.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:text-green-300 underline"
+            >
+              home.privy.io
+            </a>
+          </p>
         </div>
       ) : (
         <div className="space-y-3">

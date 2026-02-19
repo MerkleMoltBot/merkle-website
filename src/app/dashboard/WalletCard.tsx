@@ -36,7 +36,12 @@ export function WalletCard({ walletAddress, balance }: WalletCardProps) {
         <div>
           <p className="text-xs text-gray-500 mb-1">Address</p>
           <div className="flex items-center gap-2">
-            <p className="text-gray-300 font-mono text-sm break-all">{walletAddress}</p>
+            <p
+              className="text-gray-300 font-mono text-sm"
+              title={walletAddress}
+            >
+              {walletAddress.slice(0, 6)}…{walletAddress.slice(-4)}
+            </p>
             <button
               onClick={copyAddress}
               className="shrink-0 text-xs text-green-400 hover:text-green-300 transition-colors"

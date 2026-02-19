@@ -18,6 +18,23 @@ export interface AuthenticatedUser {
   twitterHandle: string;
 }
 
+// Lightweight: only verifies the JWT, no extra Privy API call.
+// Use this in routes that look up users by privy_user_id.
+export async function verifyPrivyUserId(
+  authHeader: string | null
+): Promise<string> {
+  if (!authHeader?.startsWith('Bearer ')) {
+    throw new Error('Missing or invalid Authorization header');
+  }
+
+  const token = authHeader.slice(7);
+  const privy = getPrivyClient();
+  const claims = await privy.utils().auth().verifyAccessToken(token);
+  return claims.user_id;
+}
+
+// Full verification: fetches linked accounts from Privy.
+// Use this in routes that need the user's Twitter ID.
 export async function verifyPrivyToken(
   authHeader: string | null
 ): Promise<AuthenticatedUser> {

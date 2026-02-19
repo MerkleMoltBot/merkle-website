@@ -3,15 +3,19 @@
 import { usePrivy } from '@privy-io/react-auth';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { createPublicClient, http, erc20Abi } from 'viem';
+import { base } from 'viem/chains';
 import { WalletCard } from './WalletCard';
 import { BidHistory } from './BidHistory';
 import { EmailLinkCard } from './EmailLinkCard';
 import { WithdrawForm } from './WithdrawForm';
 
-interface WalletData {
-  walletAddress: string | null;
-  balance: string | null;
-}
+const USDC_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' as const;
+
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http('https://mainnet.base.org'),
+});
 
 interface Bid {
   id: number;
@@ -26,7 +30,7 @@ interface Bid {
 export default function DashboardPage() {
   const { ready, authenticated, user, logout, getAccessToken } = usePrivy();
   const router = useRouter();
-  const [walletData, setWalletData] = useState<WalletData>({ walletAddress: null, balance: null });
+  const [balance, setBalance] = useState<string | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
@@ -36,35 +40,53 @@ export default function DashboardPage() {
     }
   }, [ready, authenticated, router]);
 
-  const fetchData = useCallback(async () => {
+  // Get wallet address directly from the Privy user object (no API call needed)
+  const embeddedWallet = user?.linkedAccounts.find(
+    (a) => a.type === 'wallet' && 'walletClientType' in a && a.walletClientType === 'privy'
+  );
+  const walletAddress = 'address' in (embeddedWallet ?? {}) ? (embeddedWallet as { address: string }).address : null;
+
+  const fetchBalance = useCallback(async () => {
+    if (!walletAddress) return;
+    try {
+      const rawBalance = await publicClient.readContract({
+        address: USDC_ADDRESS,
+        abi: erc20Abi,
+        functionName: 'balanceOf',
+        args: [walletAddress as `0x${string}`],
+      });
+      setBalance((Number(rawBalance) / 1e6).toFixed(2));
+    } catch {
+      setBalance(null);
+    }
+  }, [walletAddress]);
+
+  const fetchBids = useCallback(async () => {
     if (!authenticated) return;
-    setLoadingData(true);
     try {
       const token = await getAccessToken();
-      const headers = { Authorization: `Bearer ${token}` };
-
-      const [walletRes, bidsRes] = await Promise.all([
-        fetch('/api/user/wallet', { headers }),
-        fetch('/api/user/bids', { headers }),
-      ]);
-
-      if (walletRes.ok) {
-        const data = await walletRes.json();
-        setWalletData({ walletAddress: data.walletAddress, balance: data.balance });
-      }
-
-      if (bidsRes.ok) {
-        const data = await bidsRes.json();
+      const res = await fetch('/api/user/bids', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
         setBids(data.bids ?? []);
       }
-    } finally {
-      setLoadingData(false);
+    } catch {
+      // leave bids empty
     }
   }, [authenticated, getAccessToken]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!authenticated) return;
+    setLoadingData(true);
+    Promise.all([fetchBalance(), fetchBids()]).finally(() => setLoadingData(false));
+  }, [authenticated, fetchBalance, fetchBids]);
+
+  const handleWithdrawSuccess = useCallback(() => {
+    fetchBalance();
+    fetchBids();
+  }, [fetchBalance, fetchBids]);
 
   const twitterAccount = user?.linkedAccounts.find((a) => a.type === 'twitter_oauth');
 
@@ -115,17 +137,17 @@ export default function DashboardPage() {
               {/* Top row: Wallet + Email linking */}
               <div className="grid md:grid-cols-2 gap-6">
                 <WalletCard
-                  walletAddress={walletData.walletAddress}
-                  balance={walletData.balance}
+                  walletAddress={walletAddress}
+                  balance={balance}
                 />
                 <EmailLinkCard />
               </div>
 
               {/* Withdraw */}
-              {walletData.walletAddress && (
+              {walletAddress && (
                 <WithdrawForm
-                  balance={walletData.balance}
-                  onWithdrawSuccess={fetchData}
+                  balance={balance}
+                  onWithdrawSuccess={handleWithdrawSuccess}
                 />
               )}
 

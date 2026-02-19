@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { usePrivy } from '@privy-io/react-auth';
+import { useSendTransaction } from '@privy-io/react-auth';
+import { encodeFunctionData, erc20Abi, parseUnits, isAddress } from 'viem';
+
+const USDC_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' as const;
 
 interface WithdrawFormProps {
   balance: string | null;
@@ -9,7 +12,7 @@ interface WithdrawFormProps {
 }
 
 export function WithdrawForm({ balance, onWithdrawSuccess }: WithdrawFormProps) {
-  const { getAccessToken } = usePrivy();
+  const { sendTransaction } = useSendTransaction();
   const [toAddress, setToAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,32 +23,37 @@ export function WithdrawForm({ balance, onWithdrawSuccess }: WithdrawFormProps) 
     e.preventDefault();
     setError(null);
     setTxHash(null);
-    setLoading(true);
 
+    if (!isAddress(toAddress)) {
+      setError('Invalid destination address');
+      return;
+    }
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError('Invalid amount');
+      return;
+    }
+
+    setLoading(true);
     try {
-      const token = await getAccessToken();
-      const res = await fetch('/api/user/withdraw', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ toAddress, amount }),
+      const data = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: 'transfer',
+        args: [toAddress as `0x${string}`, parseUnits(amount, 6)],
       });
 
-      const data = await res.json();
+      const { hash } = await sendTransaction({
+        to: USDC_ADDRESS,
+        data,
+        chainId: 8453,
+      });
 
-      if (!res.ok) {
-        setError(data.error ?? 'Withdrawal failed');
-        return;
-      }
-
-      setTxHash(data.txHash);
+      setTxHash(hash);
       setToAddress('');
       setAmount('');
       onWithdrawSuccess();
-    } catch {
-      setError('Network error. Please try again.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Transaction failed');
     } finally {
       setLoading(false);
     }

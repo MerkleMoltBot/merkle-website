@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { verifyPrivyToken } from '../../auth';
+import { verifyPrivyUserId } from '../../auth';
 
 function getSupabase() {
   return createClient(
@@ -11,8 +11,19 @@ function getSupabase() {
 
 export async function GET(req: NextRequest) {
   try {
-    const authUser = await verifyPrivyToken(req.headers.get('Authorization'));
+    const privyUserId = await verifyPrivyUserId(req.headers.get('Authorization'));
     const supabase = getSupabase();
+
+    const { data: userData, error: userError } = await supabase
+      .from('users')
+      .select('twitter_id')
+      .eq('privy_user_id', privyUserId)
+      .single();
+
+    if (userError && userError.code !== 'PGRST116') throw userError;
+    if (!userData?.twitter_id) {
+      return NextResponse.json({ bids: [], total: 0 });
+    }
 
     const { searchParams } = new URL(req.url);
     const limit = Math.min(Number(searchParams.get('limit') ?? '20'), 100);
@@ -21,7 +32,7 @@ export async function GET(req: NextRequest) {
     const { data, error, count } = await supabase
       .from('bids')
       .select('id, auction_id, url, amount, tx_hash, status, created_at', { count: 'exact' })
-      .eq('twitter_id', authUser.twitterId)
+      .eq('twitter_id', userData.twitter_id)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -30,7 +41,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ bids: data ?? [], total: count ?? 0 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal server error';
-    const status = message.includes('Missing') || message.includes('No Twitter') ? 401 : 500;
+    const status = message.includes('Missing') ? 401 : 500;
     return NextResponse.json({ error: message }, { status });
   }
 }
