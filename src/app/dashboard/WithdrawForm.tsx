@@ -46,7 +46,7 @@ export function WithdrawForm({ balance, onWithdrawSuccess }: WithdrawFormProps) 
         to: USDC_ADDRESS,
         data,
         chainId: 8453,
-      });
+      }, { sponsor: true });
 
       setTxHash(hash);
       setToAddress('');
