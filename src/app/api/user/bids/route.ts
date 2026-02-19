@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyPrivyUserId, getSupabase, getAuthHeader } from '../../auth';
 
 export async function GET(req: NextRequest) {
-  console.log('Headers:', Object.fromEntries(req.headers.entries()));
   try {
     const privyUserId = await verifyPrivyUserId(getAuthHeader(req));
     const supabase = getSupabase();
