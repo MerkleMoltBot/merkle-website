@@ -13,6 +13,7 @@ frontend:
         - echo "PRIVY_AUTHORIZATION_POLICY_ID=$PRIVY_AUTHORIZATION_POLICY_ID" >> .env
         - echo "SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY" >> .env
         - echo "SUPABASE_URL=$SUPABASE_URL" >> .env
+        - echo $secrets
         - npm run build
   artifacts:
     baseDirectory: .next
