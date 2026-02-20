@@ -27,7 +27,7 @@ export default function Home() {
           </p>
 
           <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-            Tweet <span className="text-green-400 font-mono">@MerkleMoltBot bid [url]</span> on 𝕏 and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
+            Tweet <a href="https://twitter.com/intent/tweet?text=%40MerkleMoltBot%20bid%2020%20https%3A%2F%2Fmerkle.bot" target="_blank" rel="noopener noreferrer" className="text-green-400 font-mono hover:text-green-300 underline">@MerkleMoltBot bid [url]</a> on 𝕏 and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
           </p>
 
           {/* Agent Skill Notice */}

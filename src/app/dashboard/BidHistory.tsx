@@ -6,7 +6,7 @@ interface Bid {
   url: string;
   amount: string;
   tx_hash: string | null;
-  status: 'pending' | 'confirmed' | 'failed';
+  status: 'broadcasted' | 'confirmed' | 'execution_reverted' | 'failed' | 'replaced' | 'finalized' | 'provider_error' | 'pending';
   created_at: string;
 }
 
@@ -16,8 +16,13 @@ interface BidHistoryProps {
 
 const STATUS_STYLES: Record<Bid['status'], string> = {
   pending: 'bg-yellow-900/50 text-yellow-400',
+  broadcasted: 'bg-blue-900/50 text-blue-400',
   confirmed: 'bg-green-900/50 text-green-400',
+  finalized: 'bg-green-900/50 text-green-300',
   failed: 'bg-red-900/50 text-red-400',
+  execution_reverted: 'bg-red-900/50 text-red-400',
+  provider_error: 'bg-orange-900/50 text-orange-400',
+  replaced: 'bg-gray-700/50 text-gray-400',
 };
 
 export function BidHistory({ bids }: BidHistoryProps) {
@@ -61,7 +66,7 @@ export function BidHistory({ bids }: BidHistoryProps) {
                 </td>
                 <td className="py-2 pr-4 text-right font-mono">${bid.amount}</td>
                 <td className="py-2 pr-4">
-                  <span className={`px-2 py-0.5 rounded text-xs ${STATUS_STYLES[bid.status]}`}>
+                  <span className={`px-2 py-0.5 rounded text-xs ${STATUS_STYLES[bid.status] ?? 'bg-gray-700/50 text-gray-400'}`}>
                     {bid.status}
                   </span>
                 </td>
