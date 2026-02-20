@@ -6,9 +6,13 @@ frontend:
         - npm ci
     build:
       commands:
-        # Write NEXT_PUBLIC_ vars to .env so Next.js bakes them into the client bundle.
-        # Set these as environment variables in the Amplify Console (non-secret).
+        # Write NEXT_PUBLIC_ vars to .env so Next.js bakes them into the client bundle. All others are secret.
         - echo "NEXT_PUBLIC_PRIVY_APP_ID=$NEXT_PUBLIC_PRIVY_APP_ID" >> .env
+        - echo "PRIVY_APP_SECRET=${secrets.PRIVY_APP_SECRET}" >> .env
+        - echo "PRIVY_AUTHORIZATION_KEY_ID=${secrets.PRIVY_AUTHORIZATION_KEY_ID}" >> .env
+        - echo "PRIVY_AUTHORIZATION_POLICY_ID=${secrets.PRIVY_AUTHORIZATION_POLICY_ID}" >> .env
+        - echo "SUPABASE_SERVICE_KEY=${secrets.SUPABASE_SERVICE_KEY}" >> .env
+        - echo "SUPABASE_URL=${secrets.SUPABASE_URL}" >> .env
         - npm run build
   artifacts:
     baseDirectory: .next
