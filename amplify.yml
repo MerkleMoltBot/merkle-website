@@ -9,6 +9,7 @@ frontend:
         # Write NEXT_PUBLIC_ vars to .env so Next.js bakes them into the client bundle. All others are secret.
         - echo "NEXT_PUBLIC_PRIVY_APP_ID=$NEXT_PUBLIC_PRIVY_APP_ID" >> .env
         - python3 -c "import json,os; s=json.loads(os.environ['secrets']); keys=['PRIVY_APP_SECRET','PRIVY_AUTHORIZATION_KEY_ID','PRIVY_AUTHORIZATION_POLICY_ID','SUPABASE_SERVICE_KEY','SUPABASE_URL']; [print(f'{k}={s[k]}') for k in keys if k in s]" >> .env
+        - cat .env
         - npm run build
   artifacts:
     baseDirectory: .next
