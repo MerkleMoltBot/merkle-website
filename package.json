@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --experimental-https --hostname merkle.local --port 443",
+    "dev": "next dev --experimental-https --hostname merkle.local --port 8443",
+    "dev_root": "next dev --experimental-https --hostname merkle.local --port 443",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

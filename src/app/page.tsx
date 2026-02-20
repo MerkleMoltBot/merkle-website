@@ -36,7 +36,7 @@ export default function Home() {
             Download the bidding skill instructions:{' '}
             <a href="/SKILL.md" className="text-green-400 hover:text-green-300 underline font-mono">SKILL.md</a>
             <br />
-            <span className="font-mono text-xs text-gray-500 mt-1 block">curl https://merkle.bot/SKILL.md</span>
+            <span className="font-mono text-xs text-gray-500 mt-1 block">curl -L https://merkle.bot/SKILL.md</span>
           </div>
 
           {/* Feature pills */}
