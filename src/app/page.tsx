@@ -282,6 +282,15 @@ export default function Home() {
                 <div className="text-green-400 text-lg mb-1">🏛️</div>
                 <div>debtrelief.bot</div>
               </a>
+              <a
+                href="https://grokvault.xyz"
+                className="bg-gray-900/50 p-3 rounded hover:bg-gray-900 transition-colors text-gray-300 hover:text-green-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-green-400 text-lg mb-1">📊</div>
+                <div>GrokVault</div>
+              </a>
             </div>
           </div>
 
