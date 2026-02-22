@@ -33,6 +33,7 @@ export default function DashboardPage() {
   const [balance, setBalance] = useState<string | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -40,26 +41,28 @@ export default function DashboardPage() {
     }
   }, [ready, authenticated, router]);
 
-  // Get wallet address directly from the Privy user object (no API call needed)
-  const embeddedWallet = user?.linkedAccounts.find(
-    (a) => a.type === 'wallet' && 'walletClientType' in a && a.walletClientType === 'privy'
-  );
-  const walletAddress = 'address' in (embeddedWallet ?? {}) ? (embeddedWallet as { address: string }).address : null;
+  // Keep wallet address in sync when Privy user updates (covers returning users)
+  useEffect(() => {
+    const embeddedWallet = user?.linkedAccounts.find(
+      (a) => a.type === 'wallet' && 'walletClientType' in a && a.walletClientType === 'privy'
+    );
+    const addr = 'address' in (embeddedWallet ?? {}) ? (embeddedWallet as { address: string }).address : null;
+    if (addr) setWalletAddress(addr);
+  }, [user]);
 
-  const fetchBalance = useCallback(async () => {
-    if (!walletAddress) return;
+  const fetchBalance = useCallback(async (addr: string) => {
     try {
       const rawBalance = await publicClient.readContract({
         address: USDC_ADDRESS,
         abi: erc20Abi,
         functionName: 'balanceOf',
-        args: [walletAddress as `0x${string}`],
+        args: [addr as `0x${string}`],
       });
       setBalance((Number(rawBalance) / 1e6).toFixed(2));
     } catch {
       setBalance(null);
     }
-  }, [walletAddress]);
+  }, []);
 
   const fetchBids = useCallback(async () => {
     if (!authenticated) return;
@@ -80,19 +83,43 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!authenticated) return;
     setLoadingData(true);
-    Promise.all([fetchBalance(), fetchBids()]).finally(() => setLoadingData(false));
-  }, [authenticated, fetchBalance, fetchBids]);
+
+    const loadData = async () => {
+      const token = await getAccessToken();
+      // Always fetch wallet address from DB — Privy's React client doesn't
+      // reflect server-side wallet creation until the next session refresh.
+      const [ensureRes] = await Promise.all([
+        fetch('/api/user/ensure', {
+          method: 'POST',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }),
+        fetchBids(),
+      ]);
+
+      if (ensureRes.ok) {
+        const data = await ensureRes.json();
+        const addr: string | null = data.user?.wallet_address ?? null;
+        if (addr) {
+          setWalletAddress(addr);
+          await fetchBalance(addr);
+        }
+      }
+    };
+
+    loadData().finally(() => setLoadingData(false));
+  }, [authenticated, getAccessToken, fetchBalance, fetchBids]);
 
   const handleWithdrawSuccess = useCallback(() => {
-    fetchBalance();
+    if (walletAddress) fetchBalance(walletAddress);
     fetchBids();
-  }, [fetchBalance, fetchBids]);
+  }, [fetchBalance, fetchBids, walletAddress]);
 
   const twitterAccount = user?.linkedAccounts.find((a) => a.type === 'twitter_oauth');
   const farcasterAccount = user?.linkedAccounts.find((a) => a.type === 'farcaster');
-  const displayHandle = twitterAccount?.type === 'twitter_oauth'
+  const connectedPlatform = twitterAccount ? 'twitter' : farcasterAccount ? 'farcaster' : null;
+  const displayHandle = twitterAccount
     ? `@${twitterAccount.username}`
-    : farcasterAccount?.type === 'farcaster'
+    : farcasterAccount
       ? `@${farcasterAccount.username}`
       : null;
 
@@ -115,7 +142,15 @@ export default function DashboardPage() {
                 Dashboard <span className="text-green-400">🌿</span>
               </h1>
               {displayHandle && (
-                <p className="text-gray-400 text-sm mt-1">{displayHandle}</p>
+                <p className="text-gray-400 text-sm mt-1 flex items-center gap-1.5">
+                  {connectedPlatform === 'twitter' && (
+                    <span className="text-gray-300 font-semibold">𝕏</span>
+                  )}
+                  {connectedPlatform === 'farcaster' && (
+                    <span className="text-purple-400 font-semibold">Farcaster</span>
+                  )}
+                  {displayHandle}
+                </p>
               )}
             </div>
             <div className="flex gap-3">
