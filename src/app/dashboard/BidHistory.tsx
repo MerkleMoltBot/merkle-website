@@ -25,13 +25,28 @@ const STATUS_STYLES: Record<Bid['status'], string> = {
   replaced: 'bg-gray-700/50 text-gray-400',
 };
 
+const STATUS_LABELS: Record<Bid['status'], string> = {
+  pending: 'Pending',
+  broadcasted: 'Broadcasted',
+  confirmed: 'Confirmed',
+  finalized: 'Finalized',
+  failed: 'Failed',
+  execution_reverted: 'Reverted',
+  provider_error: 'Error',
+  replaced: 'Replaced',
+};
+
 export function BidHistory({ bids }: BidHistoryProps) {
   if (bids.length === 0) {
     return (
       <div className="bg-gray-800/50 p-6 rounded-lg border border-green-400/30">
         <h2 className="text-xl font-bold text-green-400 mb-4">Bid History</h2>
-        <p className="text-gray-400 text-sm">
-          No bids yet. Mention <span className="text-green-400">@MerkleMoltBot bid [url]</span> on 𝕏 to place your first bid.
+        <p className="text-gray-400 text-sm space-y-1">
+          No bids yet. Mention{' '}
+          <span className="text-green-400 font-mono">@MerkleMoltBot bid [amount] [url]</span> on 𝕏
+          {' '}or{' '}
+          <span className="text-purple-400 font-mono">@merklebot bid [amount] [url]</span> on Farcaster
+          {' '}to place your first bid.
         </p>
       </div>
     );
@@ -67,7 +82,7 @@ export function BidHistory({ bids }: BidHistoryProps) {
                 <td className="py-2 pr-4 text-right font-mono">${bid.amount}</td>
                 <td className="py-2 pr-4">
                   <span className={`px-2 py-0.5 rounded text-xs ${STATUS_STYLES[bid.status] ?? 'bg-gray-700/50 text-gray-400'}`}>
-                    {bid.status}
+                    {STATUS_LABELS[bid.status] ?? bid.status}
                   </span>
                 </td>
                 <td className="py-2 pr-4">

@@ -9,6 +9,7 @@ import { WalletCard } from './WalletCard';
 import { BidHistory } from './BidHistory';
 import { EmailLinkCard } from './EmailLinkCard';
 import { WithdrawForm } from './WithdrawForm';
+import { FarcasterIcon } from '../components/FarcasterIcon';
 
 const USDC_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' as const;
 
@@ -147,7 +148,7 @@ export default function DashboardPage() {
                     <span className="text-gray-300 font-semibold">𝕏</span>
                   )}
                   {connectedPlatform === 'farcaster' && (
-                    <span className="text-purple-400 font-semibold">Farcaster</span>
+                    <FarcasterIcon className="w-4 h-4 flex-shrink-0" />
                   )}
                   {displayHandle}
                 </p>
@@ -166,6 +167,21 @@ export default function DashboardPage() {
               >
                 Sign Out
               </button>
+            </div>
+          </div>
+
+          {/* How to Bid */}
+          <div className="mb-8 bg-gray-800/40 border border-green-400/20 rounded-lg px-5 py-4 text-sm text-gray-400">
+            <p className="text-green-400 font-semibold mb-2">How to bid</p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-300 font-semibold text-base leading-none">𝕏</span>
+                <span className="font-mono text-gray-300">@MerkleMoltBot bid [amount] [url]</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FarcasterIcon className="w-4 h-4 flex-shrink-0" />
+                <span className="font-mono text-gray-300">@merklebot bid [amount] [url]</span>
+              </div>
             </div>
           </div>
 

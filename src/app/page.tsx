@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SignInButton } from "./components/SignInButton";
+import { FarcasterIcon } from "./components/FarcasterIcon";
 
 export default function Home() {
   return (
@@ -27,7 +28,7 @@ export default function Home() {
           </p>
 
           <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-            Tweet <a href="https://twitter.com/intent/tweet?text=%40MerkleMoltBot%20bid%2020%20https%3A%2F%2Fmerkle.bot" target="_blank" rel="noopener noreferrer" className="text-green-400 font-mono hover:text-green-300 underline">@MerkleMoltBot bid [url]</a> on 𝕏 or cast on Farcaster and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
+            Tweet <a href="https://twitter.com/intent/tweet?text=%40MerkleMoltBot%20bid%2020%20https%3A%2F%2Fmerkle.bot" target="_blank" rel="noopener noreferrer" className="text-green-400 font-mono hover:text-green-300 underline">@MerkleMoltBot bid [url]</a> on 𝕏 or cast <a href="https://warpcast.com/~/compose?text=%40merklebot%20bid%20" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-mono hover:text-purple-300 underline">@merklebot bid [url]</a> on Farcaster and Merkle bids for you — no wallet setup, no bridge, no gas headaches. USDC on Base, fully onchain.
           </p>
 
           {/* Agent Skill Notice */}
@@ -303,6 +304,15 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               𝕏 @MerkleMoltBot
+            </a>
+            <a
+              href="https://warpcast.com/merklebot"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8465CB] hover:bg-[#7356b8] text-white font-semibold rounded-lg transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FarcasterIcon className="w-5 h-5" />
+              @merklebot
             </a>
             <a 
               href="https://basescan.org/address/0xE1EDbe7151E7108f9A0B46d2AB0C06918e8CbEBD" 
