@@ -68,17 +68,23 @@ export async function verifyPrivyToken(
   const claims = await privy.utils().auth().verifyAccessToken(token);
   const user = await privy.users()._get(claims.user_id);
 
-  const twitterAccount = user.linked_accounts.find(
-    (a) => a.type === 'twitter_oauth'
-  );
-
-  if (!twitterAccount || twitterAccount.type !== 'twitter_oauth') {
-    throw new Error('No Twitter account linked to this user');
+  const twitterAccount = user.linked_accounts.find((a) => a.type === 'twitter_oauth');
+  if (twitterAccount?.type === 'twitter_oauth') {
+    return {
+      privyUserId: claims.user_id,
+      twitterId: twitterAccount.subject,
+      twitterHandle: twitterAccount.username ?? '',
+    };
   }
 
-  return {
-    privyUserId: claims.user_id,
-    twitterId: twitterAccount.subject,
-    twitterHandle: twitterAccount.username ?? '',
-  };
+  const farcasterAccount = user.linked_accounts.find((a) => a.type === 'farcaster');
+  if (farcasterAccount?.type === 'farcaster') {
+    return {
+      privyUserId: claims.user_id,
+      twitterId: `fc:${farcasterAccount.fid}`,
+      twitterHandle: farcasterAccount.username ?? '',
+    };
+  }
+
+  throw new Error('No Twitter or Farcaster account linked to this user');
 }

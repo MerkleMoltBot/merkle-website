@@ -29,7 +29,7 @@ export function SignInButton() {
       onClick={authenticated ? () => router.push('/dashboard') : login}
       className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors cursor-pointer"
     >
-      {authenticated ? 'Dashboard →' : 'Sign In with 𝕏'}
+      {authenticated ? 'Dashboard →' : 'Sign In'}
     </button>
   );
 }

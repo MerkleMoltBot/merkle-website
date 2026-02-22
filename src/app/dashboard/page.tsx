@@ -89,6 +89,12 @@ export default function DashboardPage() {
   }, [fetchBalance, fetchBids]);
 
   const twitterAccount = user?.linkedAccounts.find((a) => a.type === 'twitter_oauth');
+  const farcasterAccount = user?.linkedAccounts.find((a) => a.type === 'farcaster');
+  const displayHandle = twitterAccount?.type === 'twitter_oauth'
+    ? `@${twitterAccount.username}`
+    : farcasterAccount?.type === 'farcaster'
+      ? `@${farcasterAccount.username}`
+      : null;
 
   if (!ready || !authenticated) {
     return (
@@ -108,10 +114,8 @@ export default function DashboardPage() {
               <h1 className="text-3xl font-bold text-white">
                 Dashboard <span className="text-green-400">🌿</span>
               </h1>
-              {twitterAccount && twitterAccount.type === 'twitter_oauth' && (
-                <p className="text-gray-400 text-sm mt-1">
-                  @{twitterAccount.username}
-                </p>
+              {displayHandle && (
+                <p className="text-gray-400 text-sm mt-1">{displayHandle}</p>
               )}
             </div>
             <div className="flex gap-3">

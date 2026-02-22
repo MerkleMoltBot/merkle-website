@@ -16,7 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       appId={appId}
       clientId={clientId}
       config={{
-        loginMethods: ['twitter'],
+        loginMethods: ['twitter', 'farcaster'],
         appearance: {
           theme: 'dark',
           accentColor: '#4ade80',
