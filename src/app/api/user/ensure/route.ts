@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     // Check if user already exists
     const { data: existing, error: lookupError } = await supabase
       .from('users')
-      .select('twitter_id, wallet_address')
+      .select('twitter_id, wallet_address, fc_verified_at')
       .eq('twitter_id', authUser.twitterId)
       .single();
 
@@ -29,16 +29,18 @@ export async function POST(req: NextRequest) {
       ],
     });
 
+    const insertPayload: Record<string, unknown> = {
+      twitter_id: authUser.twitterId,
+      twitter_handle: authUser.twitterHandle,
+      privy_user_id: authUser.privyUserId,
+      wallet_address: wallet.address,
+      wallet_id: wallet.id,
+    };
+
     const { data: newUser, error: insertError } = await supabase
       .from('users')
-      .insert({
-        twitter_id: authUser.twitterId,
-        twitter_handle: authUser.twitterHandle,
-        privy_user_id: authUser.privyUserId,
-        wallet_address: wallet.address,
-        wallet_id: wallet.id,
-      })
-      .select('twitter_id, wallet_address')
+      .insert(insertPayload)
+      .select('twitter_id, wallet_address, fc_verified_at')
       .single();
 
     if (insertError) throw insertError;
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ user: newUser, created: true }, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal server error';
+    console.error('[ensure]', err);
     const status = message.includes('Missing') || message.includes('No Twitter') ? 401 : 500;
     return NextResponse.json({ error: message }, { status });
   }

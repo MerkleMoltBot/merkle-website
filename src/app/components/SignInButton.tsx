@@ -8,18 +8,14 @@ export function SignInButton() {
   const router = useRouter();
   useLogin({ onComplete: ({ isNewUser, wasAlreadyAuthenticated }) => {
     if (wasAlreadyAuthenticated) return;
-    if (isNewUser) {
-        getAccessToken().then((token) => {
-          fetch('/api/user/ensure', {
-            method: 'POST',
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-          }).finally(() => {
-            router.push('/dashboard');
-          });
-        });
-    } else {
-      router.push('/dashboard');
-    }
+    getAccessToken().then((token) => {
+      fetch('/api/user/ensure', {
+        method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      }).finally(() => {
+        router.push('/dashboard');
+      });
+    });
   }});
 
   if (!ready) return null;

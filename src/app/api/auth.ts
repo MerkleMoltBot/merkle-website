@@ -36,6 +36,9 @@ export interface AuthenticatedUser {
   privyUserId: string;
   twitterId: string;
   twitterHandle: string;
+  custodyAddress?: string;
+  platform?: 'twitter' | 'farcaster';
+  fid?: number;
 }
 
 // Lightweight: only verifies the JWT, no extra Privy API call.
@@ -74,6 +77,7 @@ export async function verifyPrivyToken(
       privyUserId: claims.user_id,
       twitterId: twitterAccount.subject,
       twitterHandle: twitterAccount.username ?? '',
+      platform: 'twitter' as const,
     };
   }
 
@@ -83,6 +87,9 @@ export async function verifyPrivyToken(
       privyUserId: claims.user_id,
       twitterId: `fc:${farcasterAccount.fid}`,
       twitterHandle: farcasterAccount.username ?? '',
+      custodyAddress: farcasterAccount.owner_address ?? undefined,
+      platform: 'farcaster' as const,
+      fid: farcasterAccount.fid,
     };
   }
 

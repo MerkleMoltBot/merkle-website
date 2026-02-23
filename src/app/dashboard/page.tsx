@@ -9,6 +9,7 @@ import { WalletCard } from './WalletCard';
 import { BidHistory } from './BidHistory';
 import { EmailLinkCard } from './EmailLinkCard';
 import { WithdrawForm } from './WithdrawForm';
+import { FarcasterVerifyCard } from './FarcasterVerifyCard';
 import { FarcasterIcon } from '../components/FarcasterIcon';
 
 const USDC_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' as const;
@@ -35,6 +36,7 @@ export default function DashboardPage() {
   const [bids, setBids] = useState<Bid[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [fcVerifiedAt, setFcVerifiedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -104,6 +106,7 @@ export default function DashboardPage() {
           setWalletAddress(addr);
           await fetchBalance(addr);
         }
+        setFcVerifiedAt(data.user?.fc_verified_at ?? null);
       }
     };
 
@@ -197,6 +200,15 @@ export default function DashboardPage() {
                 />
                 <EmailLinkCard />
               </div>
+
+              {/* Farcaster verification — shown only to Farcaster users with a wallet */}
+              {connectedPlatform === 'farcaster' && walletAddress && (
+                <FarcasterVerifyCard
+                  getAccessToken={getAccessToken}
+                  fcVerifiedAt={fcVerifiedAt}
+                  walletAddress={walletAddress}
+                />
+              )}
 
               {/* Withdraw */}
               {walletAddress && (

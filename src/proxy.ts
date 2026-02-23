@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': 'https://www.merkle.bot',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, privy-token',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, privy-token, x-signer-uuid',
 };
 
 export function proxy(request: NextRequest) {
